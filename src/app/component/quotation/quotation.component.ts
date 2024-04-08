@@ -4,6 +4,7 @@ import { TopbarComponent } from '../topbar/topbar.component';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { QuotationRequestService } from '../../service/quotation-request.service';
+import { NotificationService } from '../../service/notification.service';
 
 @Component({
   selector: 'app-quotation',
@@ -15,7 +16,7 @@ import { QuotationRequestService } from '../../service/quotation-request.service
 export class QuotationComponent {
   quotationForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router, private quotation: QuotationRequestService) {
+  constructor(private fb: FormBuilder, private router: Router, private quotation: QuotationRequestService, private notificationService: NotificationService) {
     this.quotationForm = this.fb.group({
       message: [''],
       image: [null]
@@ -27,7 +28,7 @@ export class QuotationComponent {
     if (file) {
         const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
         if (!allowedTypes.includes(file.type)) {
-            alert('Type de fichier non autorisé. Veuillez sélectionner une image PNG, JPEG ou JPG.');
+            this.notificationService.showError('Type de fichier non autorisé. Veuillez sélectionner une image PNG, JPEG ou JPG.');
             return;
         }
         this.quotationForm.patchValue({ image: file });
@@ -38,7 +39,7 @@ export class QuotationComponent {
     if (this.quotationForm.valid) {
       const file: File = this.quotationForm.get('image')?.value;
       this.quotation.uploadImage(file).subscribe(url => {
-        this.quotation.sendMessage(this.quotationForm.get('message')?.value, url).then(() => {
+        this.quotation.sendMessage(this.quotationForm.get('message')?.value, url, status).then(() => {
           console.log('Quotation request sent successfully');
         }).catch(error => console.error(error));
       }, error => console.error(error));

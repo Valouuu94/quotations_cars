@@ -1,4 +1,4 @@
-import { Injectable, inject  } from '@angular/core';
+import { Injectable  } from '@angular/core';
 import { Storage, ref, uploadBytesResumable, UploadTask, getDownloadURL, getStorage   } from '@angular/fire/storage';
 import { Firestore, collection, addDoc  } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
@@ -31,11 +31,12 @@ export class QuotationRequestService {
     });
   }
 
-   sendMessage(message: string, imageUrl: string): Promise<void> {
-    return addDoc(collection(this.db, 'messages'), {
-      message,
-      imageUrl,
-      timestamp: new Date()
+   sendMessage(message: string, imageUrl: string, status: string): Promise<void> {
+    return addDoc(collection(this.db, 'quotation'), {
+        message,
+        imageUrl,
+        timestamp: new Date(),
+        status: 'pending'
     }).then(() => {
       console.log('Message sent successfully');
     }).catch((error: any) => {
