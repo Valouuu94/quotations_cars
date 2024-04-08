@@ -19,7 +19,7 @@ export class PublicSignupComponent {
     this.signupForm = new FormGroup({
         email: new FormControl('', [Validators.required, Validators.email]),
         password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-        confirmPassword: new FormControl('', Validators.required)
+            confirmPassword: new FormControl('', [Validators.required, this.passwordMatchValidator.bind(this)])
     });
     }
     onSubmit() {
@@ -35,4 +35,14 @@ export class PublicSignupComponent {
         });
     }
   }
+    passwordMatchValidator(control: FormControl): { [s: string]: boolean } | null {
+        if (control.parent) {
+            const passwordControl = control.parent.get('password');
+            const confirmPasswordControl = control.parent.get('confirmPassword');
+            if (passwordControl && confirmPasswordControl && passwordControl.value !== confirmPasswordControl.value) {
+                return { 'passwordMismatch': true };
+            }
+        }
+        return null;
+    }
 }

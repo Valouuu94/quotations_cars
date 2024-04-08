@@ -1,3 +1,14 @@
 .error {
 color: red;
 }
+.container-singup {
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+}
+.form-group {
+display: grid;
+grid-template-columns: 1fr 1fr;
+
+}

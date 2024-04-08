@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {TopbarComponent } from '../topbar/topbar.component';
 import { CommonModule } from '@angular/common';
+import { AuthentificationService } from '../../service/authentification.service';
+import { Router } from '@angular/router';
 
 
 
@@ -14,7 +16,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PublicLoginComponent {
  loginForm: FormGroup;
-    constructor() {
+    constructor(private authService: AuthentificationService, private router: Router) {
     this.loginForm = new FormGroup({
         email: new FormControl('', [Validators.required, Validators.email]),
         password: new FormControl('', [Validators.required]),
@@ -22,7 +24,18 @@ export class PublicLoginComponent {
     }
 
 onSubmit() {
-    console.log('connection en cours...');
-}
-
+    if (this.loginForm.valid) {
+        const email = this.loginForm.value.email;
+        const password = this.loginForm.value.password;
+        
+        this.authService.signIn(email, password)
+            .then(() => {
+            console.log('Connexion réussie');
+            })
+            .catch(error => {
+            console.log('Erreur lors de la connexion :', error);
+            });
+this.router
+        }
+  }
 }
