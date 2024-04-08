@@ -1,1 +1,15 @@
-<p>quotation works!</p>
+<app-topbar></app-topbar>
+<div class="quotation-container">
+    <h2>Demande de cotation</h2>
+    <form [formGroup]="quotationForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="email">Message :</label>
+            <input type="text" formControlName="message">
+        </div>
+        <div class="form-group">
+            <label for="email">Image :</label>
+            <input type="file" (change)="onFileSelected($event)">
+        </div>
+        <button type="submit">Envoyer</button>
+    </form>
+</div>

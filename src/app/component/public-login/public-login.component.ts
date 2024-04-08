@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
-import {TopbarComponent } from '../topbar/topbar.component';
+import { TopbarComponent } from '../topbar/topbar.component';
 import { CommonModule } from '@angular/common';
 import { AuthentificationService } from '../../service/authentification.service';
 import { Router } from '@angular/router';
@@ -15,13 +15,13 @@ import { Router } from '@angular/router';
   styleUrl: './public-login.component.scss'
 })
 export class PublicLoginComponent {
- loginForm: FormGroup;
+    loginForm: FormGroup;
     constructor(private authService: AuthentificationService, private router: Router) {
     this.loginForm = new FormGroup({
         email: new FormControl('', [Validators.required, Validators.email]),
         password: new FormControl('', [Validators.required]),
     });
-    }
+}
 
 onSubmit() {
     if (this.loginForm.valid) {
