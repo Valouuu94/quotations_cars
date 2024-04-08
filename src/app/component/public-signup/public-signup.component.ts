@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import {TopbarComponent } from '../topbar/topbar.component';
 import {AuthentificationService} from '../../service/authentification.service';
+import { Router } from '@angular/router';
 
 
 
@@ -15,7 +16,7 @@ import {AuthentificationService} from '../../service/authentification.service';
 })
 export class PublicSignupComponent {
     signupForm: FormGroup;
-    constructor(private authService: AuthentificationService) {
+    constructor(private authService: AuthentificationService, private router: Router) {
     this.signupForm = new FormGroup({
         email: new FormControl('', [Validators.required, Validators.email]),
         password: new FormControl('', [Validators.required, Validators.minLength(6)]),
@@ -33,6 +34,8 @@ export class PublicSignupComponent {
         .catch(error => {
           console.error('Erreur lors de l\'inscription :', error);
         });
+        this.router.navigateByUrl('/create-quote')
+
     }
   }
     passwordMatchValidator(control: FormControl): { [s: string]: boolean } | null {
