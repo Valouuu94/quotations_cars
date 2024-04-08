@@ -32,12 +32,13 @@ onSubmit() {
         this.authService.signIn(email, password)
             .then(() => {
             console.log('Connexion réussie');
+            this.router.navigateByUrl('/create-quote')
+            this.notificationService.showSuccess('Connexion réussie');
             })
             .catch(error => {
             console.log('Erreur lors de la connexion :', error);
+            this.notificationService.showError('Mot de passe ou email incorrecte');
             });
-        this.router.navigateByUrl('/create-quote')
-        this.notificationService.showSuccess('Connexion réussie');
         }
   }
 }
