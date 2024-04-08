@@ -14,9 +14,8 @@ import {AuthentificationService} from '../../service/authentification.service';
   styleUrl: './public-signup.component.scss'
 })
 export class PublicSignupComponent {
-    authentificationService = inject(AuthentificationService);
     signupForm: FormGroup;
-    constructor() {
+    constructor(private authService: AuthentificationService) {
     this.signupForm = new FormGroup({
         email: new FormControl('', [Validators.required, Validators.email]),
         password: new FormControl('', [Validators.required, Validators.minLength(6)]),
@@ -24,8 +23,16 @@ export class PublicSignupComponent {
     });
     }
     onSubmit() {
-        this.authentificationService.register(this.signupForm.value.email, this.signupForm.value.password).subscribe(() => {
-            console.log('inscription réussie');
-    });
+    if (this.signupForm.valid) {
+      const email = this.signupForm.value.email;
+      const password = this.signupForm.value.password;
+      this.authService.register(email, password)
+        .then(() => {
+          console.log('Inscription réussie');
+        })
+        .catch(error => {
+          console.error('Erreur lors de l\'inscription :', error);
+        });
     }
+  }
 }
