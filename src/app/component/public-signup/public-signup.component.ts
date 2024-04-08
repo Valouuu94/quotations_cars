@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators, ReactiveFormsModule, FormsModule } 
 import {TopbarComponent } from '../topbar/topbar.component';
 import {AuthentificationService} from '../../service/authentification.service';
 import { Router } from '@angular/router';
+import { NotificationService } from '../../service/notification.service';
 
 
 
@@ -16,7 +17,7 @@ import { Router } from '@angular/router';
 })
 export class PublicSignupComponent {
     signupForm: FormGroup;
-    constructor(private authService: AuthentificationService, private router: Router) {
+    constructor(private authService: AuthentificationService, private router: Router, private notificationService: NotificationService) {
     this.signupForm = new FormGroup({
         email: new FormControl('', [Validators.required, Validators.email]),
         password: new FormControl('', [Validators.required, Validators.minLength(6)]),
@@ -35,6 +36,7 @@ export class PublicSignupComponent {
           console.error('Erreur lors de l\'inscription :', error);
         });
         this.router.navigateByUrl('/create-quote')
+        this.notificationService.showSuccess('Inscription réussie');
 
     }
   }
@@ -44,6 +46,7 @@ export class PublicSignupComponent {
             const confirmPasswordControl = control.parent.get('confirmPassword');
             if (passwordControl && confirmPasswordControl && passwordControl.value !== confirmPasswordControl.value) {
                 return { 'passwordMismatch': true };
+
             }
         }
         return null;

@@ -4,6 +4,7 @@ import { TopbarComponent } from '../topbar/topbar.component';
 import { CommonModule } from '@angular/common';
 import { AuthentificationService } from '../../service/authentification.service';
 import { Router } from '@angular/router';
+import { NotificationService } from '../../service/notification.service';
 
 
 
@@ -15,8 +16,8 @@ import { Router } from '@angular/router';
   styleUrl: './public-login.component.scss'
 })
 export class PublicLoginComponent {
-    loginForm: FormGroup;
-    constructor(private authService: AuthentificationService, private router: Router) {
+ loginForm: FormGroup;
+    constructor(private authService: AuthentificationService, private router: Router, private notificationService: NotificationService) {
     this.loginForm = new FormGroup({
         email: new FormControl('', [Validators.required, Validators.email]),
         password: new FormControl('', [Validators.required]),
@@ -31,11 +32,13 @@ onSubmit() {
         this.authService.signIn(email, password)
             .then(() => {
             console.log('Connexion réussie');
+            this.router.navigateByUrl('/create-quote')
+            this.notificationService.showSuccess('Connexion réussie');
             })
             .catch(error => {
             console.log('Erreur lors de la connexion :', error);
+            this.notificationService.showError('Mot de passe ou email incorrecte');
             });
-        this.router.navigateByUrl('/create-quote')
         }
   }
 }
