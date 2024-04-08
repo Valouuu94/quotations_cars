@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
+import {TopbarComponent } from '../topbar/topbar.component';
+
 
 @Component({
   selector: 'app-quotation',
   standalone: true,
-  imports: [],
+  imports: [TopbarComponent],
   templateUrl: './quotation.component.html',
   styleUrl: './quotation.component.scss'
 })

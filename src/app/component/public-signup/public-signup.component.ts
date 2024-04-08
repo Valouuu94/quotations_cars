@@ -16,6 +16,7 @@ import { NotificationService } from '../../service/notification.service';
   styleUrl: './public-signup.component.scss'
 })
 export class PublicSignupComponent {
+isLoggedIn = this.authService.isLoggedIn;
     signupForm: FormGroup;
     constructor(private authService: AuthentificationService, private router: Router, private notificationService: NotificationService) {
     this.signupForm = new FormGroup({
@@ -25,21 +26,21 @@ export class PublicSignupComponent {
     });
     }
     onSubmit() {
-    if (this.signupForm.valid) {
-      const email = this.signupForm.value.email;
-      const password = this.signupForm.value.password;
-      this.authService.register(email, password)
-        .then(() => {
-          console.log('Inscription réussie');
-        })
-        .catch(error => {
-          console.error('Erreur lors de l\'inscription :', error);
-        });
-        this.router.navigateByUrl('/create-quote')
-        this.notificationService.showSuccess('Inscription réussie');
+        if (this.signupForm.valid) {
+            const email = this.signupForm.value.email;
+            const password = this.signupForm.value.password;
+            this.authService.register(email, password)
+                .then(() => {
+                console.log('Inscription réussie');
+                })
+                .catch((error: any) => {
+                console.error('Erreur lors de l\'inscription :', error);
+                });
+                this.router.navigateByUrl('/create-quote')
+                this.notificationService.showSuccess('Inscription réussie');
 
+        }
     }
-  }
     passwordMatchValidator(control: FormControl): { [s: string]: boolean } | null {
         if (control.parent) {
             const passwordControl = control.parent.get('password');

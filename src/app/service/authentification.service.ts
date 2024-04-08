@@ -1,49 +1,61 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Auth, createUserWithEmailAndPassword,signInWithEmailAndPassword ,signOut, getAuth, onAuthStateChanged  } from 'firebase/auth';
+import { setDoc, doc, getDoc, getFirestore } from 'firebase/firestore';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthentificationService {
+    private auth: Auth;
+    private firestore = getFirestore();
+    isLoggedIn = false
 
-    constructor(
-        private auth: AngularFireAuth,
-        private firestore: AngularFirestore
-    ) { }
-
-    register(email: string, password: string) {
-        return new Promise<void>((resolve, reject) => {
-            this.auth.createUserWithEmailAndPassword(email, password)
-                .then(response => {
-                    this.firestore.collection('users').doc(response.user?.uid).set({
-                        email: email,
-                    }).then(() => {
-                        resolve();
-                    }).catch(error => {
-                        console.error('Erreur lors de l\'enregistrement des données utilisateur :', error);
-                        reject(error);
-                    });
-                })
-                .catch(error => {
-                    console.error('Erreur lors de la création de compte :', error);
-                    reject(error);
-                });
-        });
+    constructor() {
+        this.auth = getAuth();
+        console.log('islooged',this.isLoggedIn);
     }
 
-    signIn(email: string, password: string) {
-        return new Promise<void>((resolve, reject) => {
-            this.auth.signInWithEmailAndPassword(email, password)
-                .then(() => {
-                    // Connexion réussie
-                    resolve();
-                })
-                .catch(error => {
-                    // Gestion des erreurs lors de la connexion
-                    console.error('Erreur lors de la connexion :', error);
-                    reject(error);
+    async register(email: string, password: string): Promise<void> {
+        try {
+            const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
+            
+            const userDocRef = doc(this.firestore, 'users', userCredential.user.uid);
+            const userDocSnap = await getDoc(userDocRef);
+            
+            if (!userDocSnap.exists()) {
+                await setDoc(userDocRef, {
+                    email: email
                 });
-        });
+                this.isLoggedIn = true
+                console.log('Utilisateur créé avec succès', this.isLoggedIn);
+            } else {
+                console.log('Utilisateur déjà existant');
+            }
+        } catch (error) {
+            console.error('Erreur lors de l\'inscription :', error);
+            throw error;
+        }
+    }
+    async signIn(email: string, password: string): Promise<void> {
+        try {
+            await signInWithEmailAndPassword(this.auth, email, password);
+           this.isLoggedIn = true
+            console.log('Connexion réussie', this.isLoggedIn);
+
+        } catch (error) {
+            console.error('Erreur lors de la connexion :', error);
+            throw error;
+        }
+    }
+    async signOut(): Promise<void> {
+        try {
+            await signOut(this.auth);
+            this.isLoggedIn = false
+            console.log('Déconnexion réussie', this.isLoggedIn);
+        } catch (error) {
+            console.error('Erreur lors de la déconnexion :', error);
+            throw error;
+        }
     }
 }

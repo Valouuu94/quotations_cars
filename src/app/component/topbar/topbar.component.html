@@ -2,8 +2,13 @@
   <div class="logo" (click)="onLogoClick();">
     <img src="https://disney-planet.fr/wp-content/uploads/2017/06/replique-cars-3-01-1.jpg" class="" alt="Logo de l'application">
   </div>
-  <div class="actions">
-    <button class="button" routerLink="/login" (click)="onClickLogin();">Se connecter</button>
-    <button class="button" routerLink="/signup" (click)="onClickSignup();">S'inscrire</button>
-  </div>
+    <div class="actions">
+        <ng-container *ngIf="!isLoggedIn" >
+            <button class="button" routerLink="/login" (click)="onClickLogin();">Se connecter</button>
+            <button class="button" routerLink="/signup" (click)="onClickSignup();">S'inscrire</button>
+        </ng-container>
+        <ng-container *ngIf="isLoggedIn" >
+            <button class="button" (click)="logout()">Déconnexion</button> 
+        </ng-container>
+    </div>
 </div>
