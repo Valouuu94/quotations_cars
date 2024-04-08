@@ -9,8 +9,8 @@ export class NotificationService {
   constructor(private snackBar: MatSnackBar) { }
 
   showSuccess(message: string) {
-    this.snackBar.open(message, 'OK', {
-      duration: 3000,
+    this.snackBar.open(message, 'Ok', {
+      duration: 20000000,
       panelClass: ['success-snackbar']
     });
   }

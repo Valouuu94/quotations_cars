@@ -2,3 +2,26 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.success-snackbar {
+  background-color: green;
+}
+
+.error-snackbar {
+  background-color: red;
+}
+
+.cdk-overlay-container{
+width: 350px;
+  height: 50px;
+  display: flex;
+  justify-content: right;
+  right: 0;
+  position: absolute;
+border-radius: 20px;
+
+}
+.mdc-snackbar__surface{
+width: 350px;
+height: 50px;
+color: white;
+}
