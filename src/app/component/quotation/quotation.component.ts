@@ -37,9 +37,11 @@ export class QuotationComponent {
   onSubmit() {
     if (this.quotationForm.valid) {
       const file: File = this.quotationForm.get('image')?.value;
+      const price = '';
+      const status = 'pending';
       this.quotation.uploadImage(file).subscribe(url => {
-        this.quotation.sendMessage(this.quotationForm.get('message')?.value, url, status).then(() => {
-          console.log('Quotation request sent successfully');
+        this.quotation.sendMessage(this.quotationForm.get('message')?.value, url, status, price).then(() => {
+          this.notificationService.showSuccess('Quotation request sent successfully');
         }).catch(error => console.error(error));
       }, error => console.error(error));
     }

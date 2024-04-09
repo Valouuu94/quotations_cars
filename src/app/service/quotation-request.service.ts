@@ -31,12 +31,13 @@ export class QuotationRequestService {
     });
   }
 
-   sendMessage(message: string, imageUrl: string, status: string): Promise<void> {
+   sendMessage(message: string, imageUrl: string, status: string, price: string): Promise<void> {
     return addDoc(collection(this.db, 'quotation'), {
         message,
         imageUrl,
         timestamp: new Date(),
-        status: 'pending'
+        status: 'pending',
+        price: ''
     }).then(() => {
       console.log('Message sent successfully');
     }).catch((error: any) => {
