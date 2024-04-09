@@ -16,12 +16,18 @@ import { NotificationService } from '../../service/notification.service';
   styleUrl: './public-login.component.scss'
 })
 export class PublicLoginComponent {
+    isLoggedIn = localStorage.getItem('isLoggedIn');
  loginForm: FormGroup;
     constructor(private authService: AuthentificationService, private router: Router, private notificationService: NotificationService) {
     this.loginForm = new FormGroup({
         email: new FormControl('', [Validators.required, Validators.email]),
         password: new FormControl('', [Validators.required]),
     });
+}
+ngOnInit() {
+    if (this.isLoggedIn === 'true') {
+        this.router.navigateByUrl('/create-quote');
+    }
 }
 
 onSubmit() {

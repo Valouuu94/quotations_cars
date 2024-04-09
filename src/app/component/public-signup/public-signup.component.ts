@@ -16,7 +16,7 @@ import { NotificationService } from '../../service/notification.service';
   styleUrl: './public-signup.component.scss'
 })
 export class PublicSignupComponent {
-    isLoggedIn = this.authService.isLoggedIn;
+    isLoggedIn = localStorage.getItem('isLoggedIn');
     signupForm: FormGroup;
     constructor(private authService: AuthentificationService, private router: Router, private notificationService: NotificationService) {
     this.signupForm = new FormGroup({

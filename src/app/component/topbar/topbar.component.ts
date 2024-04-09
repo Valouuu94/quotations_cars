@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 export class TopbarComponent {
 
 constructor(private router: Router, private authService: AuthentificationService) { }
-  isLoggedIn = this.authService.isLoggedIn;
+    isLoggedIn = localStorage.getItem('isLoggedIn');
 
     onClickSignup() {
         this.router.navigateByUrl('/signup');

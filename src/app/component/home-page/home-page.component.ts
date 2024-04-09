@@ -11,6 +11,7 @@ standalone: true,
   styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent {
+  isLoggedIn = localStorage.getItem('isLoggedIn');
 constructor(private router: Router) { }
     onClickSignup() {
         this.router.navigateByUrl('/signup');
@@ -18,5 +19,9 @@ constructor(private router: Router) { }
     onClickLogin() {
         this.router.navigateByUrl('/login');
     }
-
+    ngOnInit() {
+        if (this.isLoggedIn === 'true') {
+            this.router.navigateByUrl('/create-quote');
+        }
+    }
 }

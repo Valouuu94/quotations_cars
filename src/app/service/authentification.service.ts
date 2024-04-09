@@ -9,7 +9,7 @@ export class AuthentificationService {
     private auth: Auth;
     private firestore = getFirestore();
     isLoggedIn = false
-
+    
     constructor() {
         this.auth = getAuth();
         console.log('islooged',this.isLoggedIn);
@@ -27,6 +27,7 @@ export class AuthentificationService {
                     email: email
                 });
                 this.isLoggedIn = true
+                localStorage.setItem('isLoggedIn', this.isLoggedIn.toString());
                 console.log('Utilisateur créé avec succès', this.isLoggedIn);
             } else {
                 console.log('Utilisateur déjà existant');
@@ -40,6 +41,8 @@ export class AuthentificationService {
         try {
             await signInWithEmailAndPassword(this.auth, email, password);
            this.isLoggedIn = true
+            localStorage.setItem('isLoggedIn', this.isLoggedIn.toString());
+
             console.log('Connexion réussie', this.isLoggedIn);
 
         } catch (error) {
@@ -51,6 +54,7 @@ export class AuthentificationService {
         try {
             await signOut(this.auth);
             this.isLoggedIn = false
+            localStorage.setItem('isLoggedIn', this.isLoggedIn.toString());
             console.log('Déconnexion réussie', this.isLoggedIn);
         } catch (error) {
             console.error('Erreur lors de la déconnexion :', error);
