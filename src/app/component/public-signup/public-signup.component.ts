@@ -25,6 +25,7 @@ export class PublicSignupComponent {
         confirmPassword: new FormControl('', [Validators.required, this.passwordMatchValidator.bind(this)])
     });
     }
+    
     onSubmit() {
         if (this.signupForm.valid) {
             const email = this.signupForm.value.email;
@@ -41,6 +42,7 @@ export class PublicSignupComponent {
 
         }
     }
+
     passwordMatchValidator(control: FormControl): { [s: string]: boolean } | null {
         if (control.parent) {
             const passwordControl = control.parent.get('password');
