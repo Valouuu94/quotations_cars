@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { FormGroup, ReactiveFormsModule, FormsModule, FormBuilder } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, FormsModule, FormBuilder, Validators } from '@angular/forms';
 import { TopbarComponent } from '../topbar/topbar.component';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { QuotationRequestService } from '../../service/quotation-request.service';
 import { NotificationService } from '../../service/notification.service';
 
@@ -16,10 +15,10 @@ import { NotificationService } from '../../service/notification.service';
 export class QuotationComponent {
   quotationForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router, private quotation: QuotationRequestService, private notificationService: NotificationService) {
+  constructor(private fb: FormBuilder, private quotation: QuotationRequestService, private notificationService: NotificationService) {
     this.quotationForm = this.fb.group({
-      message: [''],
-      image: [null]
+      message: ['', Validators.required],
+      image: [null, Validators.required]
     });
   }
 
